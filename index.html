@@ -1,0 +1,131 @@
+<head> 
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Fuente base del juego con aspecto de 8-bits -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+
+        }
+    </style>
+<body>
+    <!-- Lo primero a mostar es un menu de inicio con la opcion de jugar, ver instrucciones o salir del juego. -->
+    <div id="menuInicio" style=" 
+    display: flex; 
+    flex-direction: 
+    column; align-items: center; 
+    justify-content: center; 
+    height: 576px; 
+    width: 1024px;
+    background: url('./img/FondoMenu.jpg') no-repeat center center;
+    position: absolute; 
+    top: 8px; left: 8px; 
+    right: 0; 
+    bottom: 0; 
+    z-index: 10;
+        "> <!-- COn estos arreglos CSS se logra colocar un fondo llamativo y los botones en lugares adecuados -->
+        <h1>Florentino contra el Diablo</h1>
+        <button onclick="iniciarJuego()" style="padding: 10px 20px; font-size: 16px; background: rgba(165, 34, 34, 0.8)">Jugar</button>
+        <button onclick="mostrarInstrucciones()" style="padding: 10px 20px; font-size: 16px; background: rgba(165, 34, 34, 0.8)">Instrucciones</button>
+        <button onclick="cerrarJuego()" style="padding: 10px 20px; font-size: 16px; background: rgba(165, 34, 34, 0.8)">Salir</button>
+    </div>
+    <!-- Enlazadas con funciones en JavaScript, cada cual mostrara su contenido -->
+    
+        <div id="instrucciones" style="
+    display: none; 
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
+    height: 576px; 
+    width: 1024px; 
+    color: white; 
+    background: rgba(165, 34, 34, 1); 
+    padding: 20px; 
+    position: absolute; 
+    top: 8px; 
+    left: 8px; 
+    z-index: 10;
+">
+    <h2 style="margin-bottom: 5px;">Instrucciones del juego</h2>
+
+    <div style="display: flex; width: 100%; justify-content: space-around; margin-top: 0px;">
+        <!-- Bloque con instrucciones del jugador 1 (Florentino). Incluimos instrucciones y un GIF animado para ejemplificar -->
+        <div style="flex: 1; text-align: center; padding: 10px;">
+            <p style="margin-bottom: 5px;">Jugador 1: Usa 'A', 'D', 'W' y 'Espacio' para moverte y atacar.</p>
+            <img src="./img/Florentino/Florentino Instrucciones.gif" alt="Florentino" style="max-width: 80%; height: auto; transform: scale(0.5);">
+        </div>
+
+        <!-- Bloque con instrucciones del jugador 2 (Diablo). Incluimos instrucciones y un GIF animado para ejemplificar -->
+        <div style="flex: 1; text-align: center; padding: 10px;">
+            <p style="margin-bottom: 5px;">Jugador 2: Usa las flechas y 'Abajo' para moverte y atacar.</p>
+            <img src="./img/Diablo/Sprites/Instrucciones Diablo.gif" alt="Diablo" style="max-width: 80%; height: auto; transform: scale(0.5);">
+        </div>
+    </div>
+
+    <button onclick="cerrarInstrucciones()" style="margin-top: 0px; padding: 10px 20px; font-size: 16px;">Volver</button>
+    </div>
+
+    
+
+    <!--- Contenedor de la pantalla de juego y ajustes CSS -->
+    <div style="position: relative; display: inline-block;">
+        <div style="
+            position: absolute; 
+            display: flex; 
+            width: 100%; 
+            align-items: center;
+            padding: 20px;
+            ">
+            <!---Barra de salud del jugador1 --->
+            <div style="position: relative; width: 100%; display: flex; justify-content: flex-end;border-top: 4px solid rgb(55, 30, 16);
+            border-left: 4px solid rgb(55, 30, 16);
+            border-bottom: 4px solid rgb(55, 30, 16)">
+                <div 
+                style="background-color: red; height: 30px; width: 100%
+                "></div> 
+            <div 
+            id="playerVida" 
+            style="position: absolute; background: rgb(105, 38, 7); top: 0; right: 0; bottom: 0; width: 100%;" ></div>
+            </div>
+            <!---Timer--->
+            <div 
+            id="timer" 
+            style="
+            background-color: rgb(15, 39, 4); 
+            height: 50px; 
+            width: 100px; 
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border: 4px solid rgb(55, 30, 16);
+            ">
+            
+            </div>
+            <!---Barra de salud del jugador2 --->
+            <div style="position: relative; width: 100%; border-top: 4px solid rgb(55, 30, 16);
+            border-right: 4px solid rgb(55, 30, 16);
+            border-bottom: 4px solid rgb(55, 30, 16)">
+            <div 
+            style="background-color: red; height: 30px 
+            "></div> 
+            <div 
+            id="enemyVida" 
+            style="position: absolute; background: rgb(105, 38, 7); top: 0; right: 0; bottom: 0; left: 0;" ></div>
+            </div>
+        </div>
+    <div id="displayText"
+    style="position: absolute; color: white; align-items: center; justify-content: center; top: 0; right: 0; bottom: 0; left: 0; display: none;">Empate</div> <!--Texto del ganador o empate-->
+    <canvas></canvas>
+    </div>
+<!-- Enlace con animacion de barra de vida y clases JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js" integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="js/classes.js" ></script>
+<script src="js/index.js" ></script>
+</body>
+</head>
