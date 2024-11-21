@@ -169,7 +169,7 @@ function iniciarJuego() { //Se construye la funcion de iniciar el juego, que se 
     contadorTimer(); //E inicia el temporizador del juego
 
     //Conjunto a esto, comienza la música de fondo
-    const musicaFondo = new Audio('./Audio/SoundtrackJuego.WAV');
+    const musicaFondo = new Audio('./audio/SoundtrackJuego.WAV');
     musicaFondo.loop = true; //Esto es para que la música se repita en bucle y no acabe repentinamente
     musicaFondo.play();
     
